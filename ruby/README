@@ -1,0 +1,30 @@
+Puts your code inside a folder with your name inside the corresponding year folder.
+Simply use the ruby command to run you program or test :
+
+```
+ruby tests.rb
+```
+
+If you want to run only your tests, run :
+
+```
+ruby tests.rb -u your_name
+```
+
+If you want to run tests from another year, run :
+
+```
+ruby tests.rb -y 2017
+```
+
+If you want to run tests for only one day, run :
+
+```
+ruby tests.rb -d 4
+```
+
+To make everything work, your file should be name correspondingly to the day of the calendar, and should contains only two methods :
+part_1 is the solution to the first part of the puzzle
+part_2 is the solution to the second part of the puzzle
+
+Also, you should put the resources files inside a 'resources' folder, and name each resource according to the day of the calendar
