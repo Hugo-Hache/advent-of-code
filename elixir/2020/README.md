@@ -1,6 +1,6 @@
-# Advent of Code Elixir Starter
+# Elixir 2020
 
-Fork from [Elixir starter pack](https://github.com/mhanberg/advent-of-code-elixir-starter)!
+Forked from [Elixir starter pack](https://github.com/mhanberg/advent-of-code-elixir-starter)
 
 ## Usage
 
