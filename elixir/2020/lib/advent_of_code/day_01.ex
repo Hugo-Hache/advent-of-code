@@ -3,25 +3,25 @@ defmodule AdventOfCode.Day01 do
 
   def part1(input) do
     input
-    |> String.split
+    |> String.split()
     |> Enum.map(&String.to_integer/1)
     |> find_pairs(@target)
-    |> List.first
+    |> List.first()
     |> Enum.reduce(1, &(&1 * &2))
   end
 
   def part2(input) do
     input
-    |> String.split
+    |> String.split()
     |> Enum.map(&String.to_integer/1)
     |> find_triplets(@target)
-    |> List.first
+    |> List.first()
     |> Enum.reduce(1, &(&1 * &2))
   end
 
   def find_pairs(amounts, target) do
     amounts
-    |> Enum.reduce({MapSet.new, []}, fn amount, {candidate, pairs} ->
+    |> Enum.reduce({MapSet.new(), []}, fn amount, {candidate, pairs} ->
       complementary = target - amount
 
       if candidate |> MapSet.member?(complementary) do
@@ -37,9 +37,11 @@ defmodule AdventOfCode.Day01 do
   end
 
   def find_triplets(amounts, target, triplets \\ [])
+
   def find_triplets([amount | amounts], target, triplets) do
-    new_triplets = find_pairs(amounts, target - amount)
-                   |> Enum.map(&([amount | &1]))
+    new_triplets =
+      find_pairs(amounts, target - amount)
+      |> Enum.map(&[amount | &1])
 
     find_triplets(
       amounts,
@@ -47,5 +49,6 @@ defmodule AdventOfCode.Day01 do
       new_triplets ++ triplets
     )
   end
+
   def find_triplets([], _, triplets), do: triplets
 end
