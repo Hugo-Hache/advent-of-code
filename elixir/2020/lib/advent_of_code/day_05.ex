@@ -2,6 +2,7 @@ defmodule AdventOfCode.Day05 do
   def part1(input) do
     input
     |> String.split("\n")
+    |> Enum.filter(&(String.length(&1) > 0))
     |> Enum.map(&seat_id/1)
     |> Enum.max()
   end
@@ -10,6 +11,7 @@ defmodule AdventOfCode.Day05 do
     seat_ids =
       input
       |> String.split("\n")
+      |> Enum.filter(&(String.length(&1) > 0))
       |> Enum.map(&seat_id/1)
 
     {min_id, max_id} = Enum.min_max(seat_ids)
@@ -17,6 +19,18 @@ defmodule AdventOfCode.Day05 do
   end
 
   def seat_id(boarding_pass) do
+    [row, column] =
+      boarding_pass
+      |> String.replace(["B", "R"], "1")
+      |> String.replace(["F", "L"], "0")
+      |> String.split_at(7)
+      |> Tuple.to_list()
+      |> Enum.map(&String.to_integer(&1, 2))
+
+    row * 8 + column
+  end
+
+  def range_seat_id(boarding_pass) do
     {{min_row, _}, {min_column, _}} =
       boarding_pass
       |> String.graphemes()
