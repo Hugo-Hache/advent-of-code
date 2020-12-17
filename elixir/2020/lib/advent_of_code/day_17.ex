@@ -3,36 +3,31 @@ defmodule AdventOfCode.Day17 do
     input
     |> parse_map
     |> play_round
-    |> Map.values()
-    |> Enum.count(&(&1 == "#"))
+    |> MapSet.size()
   end
 
-  def play_round(map, round \\ 0, stop_at_round \\ 6)
-  def play_round(map, round, stop_at_round) when round == stop_at_round, do: map
+  def play_round(set, round \\ 0, stop_at_round \\ 6)
+  def play_round(set, round, stop_at_round) when round == stop_at_round, do: set
 
-  def play_round(map, round, stop_at_round) do
-    new_map =
-      map
-      |> Map.keys()
+  def play_round(set, round, stop_at_round) do
+    new_set =
+      set
       |> Enum.flat_map(&adjacent_positions/1)
       |> Enum.uniq()
-      |> Enum.reduce(%{}, fn position, new_map ->
+      |> Enum.reduce(MapSet.new(), fn position, new_set ->
         occupied_adjacent_count =
           position
           |> adjacent_positions()
-          |> Enum.count(&(Map.get(map, &1) == "#"))
+          |> Enum.count(&MapSet.member?(set, &1))
 
-        new_map
-        |> Map.put(
-          position,
-          case map |> Map.get(position) do
-            "#" -> if occupied_adjacent_count in [2, 3], do: "#", else: "."
-            _ -> if occupied_adjacent_count == 3, do: "#", else: "."
-          end
-        )
+        case {MapSet.member?(set, position), occupied_adjacent_count} do
+          {true, count} when count in [2, 3] -> new_set |> MapSet.put(position)
+          {false, 3} -> new_set |> MapSet.put(position)
+          _ -> new_set
+        end
       end)
 
-    play_round(new_map, round + 1, stop_at_round)
+    play_round(new_set, round + 1, stop_at_round)
   end
 
   def adjacent_positions({i, j, z}) do
@@ -73,20 +68,16 @@ defmodule AdventOfCode.Day17 do
     |> String.split("\n")
     |> Enum.filter(&(String.length(&1) > 0))
     |> Enum.with_index()
-    |> Enum.reduce(Map.new(), fn {row, i}, map ->
+    |> Enum.reduce(MapSet.new(), fn {row, i}, set ->
       row
       |> String.graphemes()
       |> Enum.with_index()
-      |> Enum.reduce(map, fn
-        {"#", j}, map ->
-          map
-          |> Map.put(
-            if(dim == 4, do: {i, j, 0, 0}, else: {i, j, 0}),
-            "#"
-          )
+      |> Enum.reduce(set, fn
+        {"#", j}, set ->
+          set |> MapSet.put(if(dim == 4, do: {i, j, 0, 0}, else: {i, j, 0}))
 
-        {_, _}, map ->
-          map
+        {_, _}, set ->
+          set
       end)
     end)
   end
@@ -95,7 +86,6 @@ defmodule AdventOfCode.Day17 do
     input
     |> parse_map(4)
     |> play_round
-    |> Map.values()
-    |> Enum.count(&(&1 == "#"))
+    |> MapSet.size()
   end
 end
