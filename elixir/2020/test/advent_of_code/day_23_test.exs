@@ -10,5 +10,7 @@ defmodule AdventOfCode.Day23Test do
   end
 
   test "part2" do
+    # A bit long
+    # assert part2("389125467") == "149245887792"
   end
 end

@@ -51,6 +51,66 @@ defmodule AdventOfCode.Day23 do
     end
   end
 
-  def part2(_input) do
+  def part2(input) do
+    cups = input |> parse_cups()
+    million_cups = cups ++ ((Enum.max(cups) + 1)..1_000_000 |> Enum.to_list())
+
+    played_linked_cups =
+      million_cups
+      |> linked_cups()
+      |> linked_play()
+
+    after_one = played_linked_cups[1]
+    after_after_one = played_linked_cups[after_one]
+
+    after_one * after_after_one
+  end
+
+  def linked_play(linked_cups, round \\ 0)
+  def linked_play(linked_cups, 10_000_000), do: linked_cups
+
+  def linked_play(%{current: current_cup} = linked_cups, round) do
+    if rem(round, 10000) == 0, do: IO.puts(round)
+
+    picked_cups = linked_cups |> picked_cups(current_cup)
+    destination_cup = picked_cups |> linked_destination(current_cup - 1)
+    next_current = linked_cups[List.last(picked_cups)]
+
+    new_linked_cups =
+      linked_cups
+      |> Map.put(destination_cup, hd(picked_cups))
+      |> Map.put(List.last(picked_cups), linked_cups[destination_cup])
+      |> Map.put(current_cup, next_current)
+      |> Map.put(:current, next_current)
+
+    linked_play(new_linked_cups, round + 1)
+  end
+
+  def picked_cups(linked_cups, current_cup) do
+    picked = linked_cups[current_cup]
+    picked_second = linked_cups[picked]
+    picked_third = linked_cups[picked_second]
+
+    [picked, picked_second, picked_third]
+  end
+
+  def linked_destination(_, 0), do: 1_000_000
+
+  def linked_destination(picked_cups, target) do
+    if target in picked_cups do
+      linked_destination(picked_cups, target - 1)
+    else
+      target
+    end
+  end
+
+  def linked_cups([cup | other_cups]) do
+    {linked_cups, previous_cup} =
+      other_cups
+      |> Enum.reduce({%{current: cup}, cup}, fn cup, {linked_cups, previous_cup} ->
+        {linked_cups |> Map.put(previous_cup, cup), cup}
+      end)
+
+    linked_cups |> Map.put(previous_cup, cup)
   end
 end
