@@ -1,0 +1,38 @@
+[tool.poetry]
+name = "Advent of code"
+version = "0.1.0"
+description = "Advent of Code 2021 Solutions"
+authors = ["Hugo Hache"]
+
+[tool.poetry.dependencies]
+python = "^3.9,<3.11"
+numpy = "^1.21.4"
+sympy = "^1.9"
+
+[tool.poetry.dev-dependencies]
+black = "^21.10b0"
+pytest-pylint = "^0.18.0"
+pytest = "^6.2.5"
+isort = "^5.10.1"
+
+[tool.pytest.ini_options]
+minversion = "6.0"
+addopts = "--pylint ./2020/ ./ --pylint-jobs=4"
+
+[tool.pylint.message_control]
+disable="line-too-long"
+
+[tool.poetry.scripts]
+lint = "poetry_utils:run_lint"
+format = "poetry_utils:run_format"
+check_isort = "poetry_utils:check_isort"
+check_format = "poetry_utils:check_format"
+all_solutions = "poetry_utils:run_all_days"
+
+[tool.isort]
+profile = "black"
+multi_line_output = 3
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
