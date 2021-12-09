@@ -1,4 +1,4 @@
-""" Solution to Day 07 of Advent of Code 2021 """
+""" Solution to Day 08 of Advent of Code 2021 """
 import timeit
 from pathlib import Path
 
