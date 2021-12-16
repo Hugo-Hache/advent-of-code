@@ -83,8 +83,6 @@ test_input = """
 assert_eq(40, lowest_total_risk(parse(test_input)))
 assert_eq(315, lowest_total_risk(five(parse(test_input))))
 
-MEMO_FREQ = {}
-
 # Answers
 PART_1_START_TIME = timeit.default_timer()
 PART_1_ANS = lowest_total_risk()
