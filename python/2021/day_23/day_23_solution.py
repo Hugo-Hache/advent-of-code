@@ -241,7 +241,7 @@ test_input = """
 assert_eq(12521, dijkstra(parse(test_input.split("\n"))))
 assert_eq(
     44169, dijkstra(parse(test_input.split("\n"), unfold=True)) + 20
-)  # No idea whatsoever where this 20 comes from,
+)  # No idea whatsoever where this 20 comes from
 
 MEMO_LEAST_ENERGY = {}
 
