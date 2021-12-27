@@ -1,4 +1,4 @@
-""" Solution to Day 23 of Advent of Code 2021 """
+""" Solution to Day 24 of Advent of Code 2021 """
 import timeit
 from pathlib import Path
 from queue import PriorityQueue
