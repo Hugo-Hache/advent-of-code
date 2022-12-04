@@ -2,6 +2,8 @@ package utils
 
 type Interval struct{ Min, Max int }
 
+var EMPTY_INTERVAL = Interval{0, -1}
+
 // https{//stackoverflow.com/questions/31057473/calculating-the-modulo-of-two-Intervals
 func (a Interval) Len() int {
 	return a.Max - a.Min + 1
@@ -76,14 +78,14 @@ func (a Interval) Div(b Interval) Interval {
 
 func (a Interval) Inter(b Interval) Interval {
 	if a.Max < b.Min || b.Max < a.Min {
-		return Interval{0, -1}
+		return EMPTY_INTERVAL
 	}
 	min := Max(a.Min, b.Min)
 	max := Min(a.Max, b.Max)
 	return Interval{min, max}
 }
 
-func (a Interval) union(b Interval) Interval {
+func (a Interval) Union(b Interval) Interval {
 	min := Min(a.Min, b.Min)
 	max := Max(a.Max, b.Max)
 	return Interval{min, max}
@@ -95,13 +97,13 @@ func (i Interval) Mod1(m int) Interval {
 	switch {
 	case a > b || m == 0:
 		// (1): empty Interval
-		return Interval{0, -1}
+		return EMPTY_INTERVAL
 	case b < 0:
 		// (2): compute modulo with positive Interval and negate
 		return Interval{-b, -a}.Mod1(m).Negate()
 	case a < 0:
 		// (3): split into negative and non-negative Interval, compute and join
-		return Interval{a, -1}.Mod1(m).union(Interval{0, b}.Mod1(m))
+		return Interval{a, -1}.Mod1(m).Union(Interval{0, b}.Mod1(m))
 	case b-a < Abs(m) && a%m <= b%m:
 		// (4): there is no k > 0 such that a < k*m <= b
 		return Interval{a % m, b % m}
@@ -119,13 +121,13 @@ func (i Interval) Mod2(i2 Interval) Interval {
 	switch {
 	case a > b || m > n:
 		// (1): empty Interval
-		return Interval{0, -1}
+		return EMPTY_INTERVAL
 	case b < 0:
 		// (2): compute modulo with positive Interval and negate
 		return Interval{-b, -a}.Mod2(Interval{m, n}).Negate()
 	case a < 0:
 		// (3): split into negative and non-negative Interval, compute, and join
-		return Interval{a, -1}.Mod2(Interval{m, n}).union(Interval{0, b}.Mod2(Interval{m, n}))
+		return Interval{a, -1}.Mod2(Interval{m, n}).Union(Interval{0, b}.Mod2(Interval{m, n}))
 	case m == n:
 		// (4): use the simpler function from before
 		return Interval{a, b}.Mod1(m)
@@ -140,7 +142,7 @@ func (i Interval) Mod2(i2 Interval) Interval {
 		return Interval{0, n - 1}
 	case b-a >= m:
 		// (8): similar to (7), split Interval, compute, and join
-		return Interval{0, b - a - 1}.union(Interval{a, b}.Mod2(Interval{b - a + 1, n}))
+		return Interval{0, b - a - 1}.Union(Interval{a, b}.Mod2(Interval{b - a + 1, n}))
 	case m > b:
 		// (9): modulo has no effect
 		return Interval{a, b}
