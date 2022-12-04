@@ -1,0 +1,11 @@
+# Go 2022
+
+Forked from [pemoreau advent-of-code repo](https://github.com/github.com/pemoreau/advent-of-code/go)
+
+## Usage
+
+```bash
+$ go mod vendor
+$ go run 2022/XX/dayXX.go
+$ go test ./2022/XX
+```
