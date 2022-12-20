@@ -1,2 +1,4 @@
+github.com/dominikbraun/graph v0.15.0 h1:U6N0fWJTDsUO9R5NhFE1Xi0YGGQ1+nKV9KO5apClf3E=
+github.com/dominikbraun/graph v0.15.0/go.mod h1:yOjYyogZLY1LSG9E33JWZJiq5k83Qy2C6POAuiViluc=
 golang.org/x/exp v0.0.0-20221126150942-6ab00d035af9 h1:yZNXmy+j/JpX19vZkVktWqAo7Gny4PBWYYK3zskGpx4=
 golang.org/x/exp v0.0.0-20221126150942-6ab00d035af9/go.mod h1:CxIveKay+FTh1D0yPZemJVgC/95VzuuOLq5Qi4xnoYc=
