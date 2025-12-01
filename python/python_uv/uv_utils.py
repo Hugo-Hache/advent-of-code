@@ -1,4 +1,5 @@
 """Utility & CLI functions"""  # pylint:disable-msg=C0415
+
 import importlib.util
 import subprocess
 import sys
@@ -53,7 +54,7 @@ def run_format():
 
 
 def run_all_days():
-    """ Runner to run all day solutions """
+    """Runner to run all day solutions"""
     # year, day dir structure
     print("Note: Run each solution separatelyor more detailed print statements")
     solution_files = glob("./*/*/*solution*.py")
@@ -72,4 +73,3 @@ def run_all_days():
             )
         except AttributeError:
             print("One of the required variable names is not preset")
-
