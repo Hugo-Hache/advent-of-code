@@ -1,8 +1,4 @@
-"""Solution to Day XX of Advent of Code 2021"""
-
-from ast import parse
 import timeit
-import math
 from pathlib import Path
 
 # Constants

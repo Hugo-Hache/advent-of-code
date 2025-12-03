@@ -1,6 +1,3 @@
-"""Solution to Day XX of Advent of Code 2021"""
-
-from ast import parse
 import timeit
 from pathlib import Path
 
