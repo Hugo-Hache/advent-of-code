@@ -9,34 +9,29 @@ with open(DATA_PATH / "input.txt") as input_file:
     DATA = input_file.read().split("\n")
 
 # Data parsing functions
-BANKS = list(map(list, DATA))
+BANKS = DATA
 
 
 # Data analysis
-def total_joltage(banks=BANKS):
+def total_joltage(digits, banks=BANKS):
     total = 0
     for bank in banks:
-        total += bank_max_voltage(bank)
+        print(bank_max_voltage(bank, digits))
+        total += int("".join(map(str, bank_max_voltage(bank, digits))))
     return total
 
 
-def bank_max_voltage(bank):
+def bank_max_voltage(bank, digits):
+    if digits == 0:
+        return []
+
     max_joltage_index = -1
     max_joltage = 0
-    for i in range(len(bank) - 1):
+    for i in range(len(bank) - max(0, digits - 1)):
         if int(bank[i]) > max_joltage:
             max_joltage = int(bank[i])
             max_joltage_index = i
-
-    second_max_joltage = 0
-    for i in range(max_joltage_index + 1, len(bank)):
-        if int(bank[i]) > second_max_joltage and i != max_joltage_index:
-            second_max_joltage = int(bank[i])
-
-    return int(f"{max_joltage}{second_max_joltage}")
-
-
-# Assertions
+    return [max_joltage, *bank_max_voltage(bank[max_joltage_index + 1 :], digits - 1)]
 
 
 def assert_equal(actual, expected):
@@ -45,24 +40,38 @@ def assert_equal(actual, expected):
 
 assert_equal(
     total_joltage(
+        2,
         """987654321111111
 811111111111119
 234234234234278
 818181911112111""".split(
             "\n"
-        )
+        ),
     ),
     357,
+)
+
+assert_equal(
+    total_joltage(
+        12,
+        """987654321111111
+811111111111119
+234234234234278
+818181911112111""".split(
+            "\n"
+        ),
+    ),
+    3121910778619,
 )
 
 
 # Answers
 PART_1_START_TIME = timeit.default_timer()
-PART_1_ANS = total_joltage()
+PART_1_ANS = total_joltage(2)
 PART_1_TIME_MS = (timeit.default_timer() - PART_1_START_TIME) * 1000
 
 PART_2_START_TIME = timeit.default_timer()
-PART_2_ANS = "TODO"
+PART_2_ANS = total_joltage(12)
 PART_2_TIME_MS = (timeit.default_timer() - PART_2_START_TIME) * 1000
 
 if __name__ == "__main__":
